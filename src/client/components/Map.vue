@@ -23,7 +23,7 @@
         :is-draggable="false"
         :is-resizable="false"
       >
-        <button @click="click(item.i, item.x, item.y)"></button>
+        <button @click="click(item.i, item.x, item.y)" :ref="item.i"></button>
       </grid-item>
     </grid-layout>
   </div>
@@ -54,11 +54,22 @@ export default {
   methods: {
     ...mapActions(["newStart", "newDestination", "newSet"]),
     click(id: number, x: number, y: number) {
-      console.log(id, x, y);
+      let onClickNode = this.$refs[`${id}`];
+      let currentStartNode = this.$refs[`${this.$store.getters.currentStart}`];
+      let currentDestinationNode =
+        this.$refs[`${this.$store.getters.currentDestination}`];
       if (this.$store.getters.currentSet === "startpoint") {
+        onClickNode[0].textContent = "S";
+        if (currentStartNode) {
+          currentStartNode[0].textContent = "";
+        }
         this.newStart(id);
         this.newSet("destination");
       } else {
+        onClickNode[0].textContent = "D";
+        if (currentDestinationNode) {
+          currentDestinationNode[0].textContent = "";
+        }
         this.newDestination(id);
         this.newSet("startpoint");
       }
@@ -84,13 +95,21 @@ button {
   display: inline-block; /* this shouldn't be needed on a button though */
   width: 100%;
   height: 100%;
+  background: white;
+  font-weight: bold;
 }
 
 button:hover {
-  background: rgb(79, 96, 110);
+  background: rgb(174, 175, 175);
+  transition-delay: 0s;
+  transition-duration: 0.5s;
+  opacity: 1;
 }
 
 button:active {
   background: orange;
+  transition-delay: 0s;
+  transition-duration: 0.1s;
+  opacity: 1;
 }
 </style>
