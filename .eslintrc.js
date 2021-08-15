@@ -14,6 +14,10 @@ module.exports = {
         "semi": false,
         "trailingComma": "none"
       }
+    ],
+    "semicolon": [
+      false,
+      "always"
     ]
   },
   parserOptions: {

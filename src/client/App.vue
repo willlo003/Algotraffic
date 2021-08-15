@@ -5,9 +5,9 @@
   </div>
 </template>
 
-<script>
-import TheHeader from "./TheHeader.vue";
-import Map from "./Map.vue";
+<script  lang="ts">
+import TheHeader from "./components/TheHeader.vue";
+import Map from "./components/Map.vue";
 
 export default {
   name: "App",

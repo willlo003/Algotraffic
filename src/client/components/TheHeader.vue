@@ -8,13 +8,29 @@
       <option value="Dijkstra's">Dijkstra's</option>
     </select>
     <button class="start" id="start">start</button>
+    <button class="clear" id="clear">clear</button>
+    <p class="start-point" id="start-point">Start Point {{ currentStart }}</p>
+    <p class="destination" id="destination">
+      Destination {{ currentDestination }}
+    </p>
   </div>
 </template>
 
-<script>    
+<script>
+import { mapGetters } from "vuex";
 export default {
-  data() {
-    return {};
-  },
+  name: "TheHeader",
+  computed: mapGetters(["currentStart", "currentDestination"]),
+  // data() {
+  //   return {};
+  // },
 };
 </script>
+
+<style scoped>
+.header > select,
+.header > button,
+.header > p {
+  display: inline-block;
+}
+</style>

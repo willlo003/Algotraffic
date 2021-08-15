@@ -3,7 +3,7 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: "./src/client/index.ts",
+  entry: "./src/client/main.ts",
   devtool: "eval-source-map",
   output: {
     publicPath: "/public/",
