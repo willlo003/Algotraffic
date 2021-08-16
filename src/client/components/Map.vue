@@ -27,6 +27,7 @@
           @click="click(item.x, item.y)"
           :ref="`x${item.x}` + `y${item.y}`"
           :id="`x${item.x}` + `y${item.y}`"
+          :style="{ background: currentClear ? 'white' : '#ffffff' }"
         ></button>
       </grid-item>
     </grid-layout>
@@ -36,16 +37,13 @@
 <script lang="ts">
 import VueGridLayout from "vue-grid-layout";
 import Grid from "../store/modules/grid";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
-// let sizing: number = 30;
 let testLayout: Array<Object> = Grid;
 
 export default {
   name: "Map",
-  // props: {
-  //   msg: String,
-  // },
+  computed: mapGetters(["currentClear"]),
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
@@ -53,9 +51,13 @@ export default {
   data() {
     return {
       layout: testLayout,
+      activeColor: false,
     };
   },
   methods: {
+    clearColor() {
+      this.activeColor = !this.activeColor;
+    },
     ...mapActions(["newStart", "newDestination", "newSet"]),
     // function of clicking the node
     click(x: number, y: number) {
@@ -72,10 +74,8 @@ export default {
       if (currentSet === "startpoint") {
         onClickNode[0].textContent = "S";
         if (currentStart[0]) {
-          console.log(`x${currentStart[0]}` + `y${currentStart[1]}`);
           currentStartNode =
             this.$refs[`x${currentStart[0]}` + `y${currentStart[1]}`];
-          console.log(currentStartNode);
           currentStartNode[0].textContent = "";
         }
         this.newStart([x, y]);
@@ -102,6 +102,7 @@ export default {
   position: relative;
   width: 1200px;
 }
+
 .vue-grid-item {
   border: 1.2px solid #469096;
   display: flex;

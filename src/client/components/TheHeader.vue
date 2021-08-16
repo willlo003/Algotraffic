@@ -29,11 +29,11 @@ import BFS from "../Algorithm/BFS";
 export default {
   name: "TheHeader",
   computed: mapGetters(["currentStart", "currentDestination"]),
-  // data() {
-  //   return {};
-  // },
+  data() {
+    return {};
+  },
   methods: {
-    ...mapActions(["newStart", "newDestination"]),
+    ...mapActions(["newStart", "newDestination", "newClear"]),
     startRunning() {
       //Current Start Node Coordinate
       let startNodeCoordinate = this.$store.getters.currentStart;
@@ -58,8 +58,14 @@ export default {
         );
         currentDestinationNode.textContent = "";
       }
+
+      //set new end start point
       this.newStart([undefined, undefined]);
       this.newDestination([undefined, undefined]);
+
+      //clear color
+      let newClear = !this.$store.getters.currentClear;
+      this.newClear(newClear);
     },
   },
 };
