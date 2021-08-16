@@ -23,7 +23,11 @@
         :is-draggable="false"
         :is-resizable="false"
       >
-        <button @click="click(item.i, item.x, item.y)" :ref="item.i"></button>
+        <button
+          @click="click(item.x, item.y)"
+          :ref="`x${item.x}` + `y${item.y}`"
+          :id="`x${item.x}` + `y${item.y}`"
+        ></button>
       </grid-item>
     </grid-layout>
   </div>
@@ -31,8 +35,8 @@
 
 <script lang="ts">
 import VueGridLayout from "vue-grid-layout";
-import Grid from "./grid";
-import { mapGetters, mapActions } from "vuex";
+import Grid from "../store/modules/grid";
+import { mapActions } from "vuex";
 
 // let sizing: number = 30;
 let testLayout: Array<Object> = Grid;
@@ -53,24 +57,39 @@ export default {
   },
   methods: {
     ...mapActions(["newStart", "newDestination", "newSet"]),
-    click(id: number, x: number, y: number) {
-      let onClickNode = this.$refs[`${id}`];
-      let currentStartNode = this.$refs[`${this.$store.getters.currentStart}`];
-      let currentDestinationNode =
-        this.$refs[`${this.$store.getters.currentDestination}`];
-      if (this.$store.getters.currentSet === "startpoint") {
+    // function of clicking the node
+    click(x: number, y: number) {
+      //OnClick Node
+      let onClickNode: any = this.$refs[`x${x}` + `y${y}`];
+      //Current set Start or Destination
+      let currentSet = this.$store.getters.currentSet;
+      //Current StartNode and DestinationNode
+      let currentStart = this.$store.getters.currentStart;
+      let currentDestination = this.$store.getters.currentDestination;
+      let currentStartNode: any;
+      let currentDestinationNode: any;
+
+      if (currentSet === "startpoint") {
         onClickNode[0].textContent = "S";
-        if (currentStartNode) {
+        if (currentStart[0]) {
+          console.log(`x${currentStart[0]}` + `y${currentStart[1]}`);
+          currentStartNode =
+            this.$refs[`x${currentStart[0]}` + `y${currentStart[1]}`];
+          console.log(currentStartNode);
           currentStartNode[0].textContent = "";
         }
-        this.newStart(id);
+        this.newStart([x, y]);
         this.newSet("destination");
       } else {
         onClickNode[0].textContent = "D";
-        if (currentDestinationNode) {
+        if (currentDestination[0]) {
+          currentDestinationNode =
+            this.$refs[
+              `x${currentDestination[0]}` + `y${currentDestination[1]}`
+            ];
           currentDestinationNode[0].textContent = "";
         }
-        this.newDestination(id);
+        this.newDestination([x, y]);
         this.newSet("startpoint");
       }
     },

@@ -7,23 +7,61 @@
       <option value="Greedy">Greedy</option>
       <option value="Dijkstra's">Dijkstra's</option>
     </select>
-    <button class="start" id="start">start</button>
-    <button class="clear" id="clear">clear</button>
-    <p class="start-point" id="start-point">Start Point {{ currentStart }}</p>
+    <button class="start" id="start" @click="startRunning">start</button>
+    <button class="clear" id="clear" @click="clear">clear</button>
+    <p class="start-point" id="start-point">
+      Start Point:
+      {{ currentStart[0] === undefined ? "Please Set" : currentStart }}
+    </p>
     <p class="destination" id="destination">
-      Destination {{ currentDestination }}
+      Destination:
+      {{
+        currentDestination[0] === undefined ? "Please Set" : currentDestination
+      }}
     </p>
   </div>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
+<script lang="ts">
+import { mapGetters, mapActions } from "vuex";
+import BFS from "../Algorithm/BFS";
+
 export default {
   name: "TheHeader",
   computed: mapGetters(["currentStart", "currentDestination"]),
   // data() {
   //   return {};
   // },
+  methods: {
+    ...mapActions(["newStart", "newDestination"]),
+    startRunning() {
+      //Current Start Node Coordinate
+      let startNodeCoordinate = this.$store.getters.currentStart;
+      BFS(startNodeCoordinate);
+    },
+    clear() {
+      // clear the current start point and destination
+      let currentStart = this.$store.getters.currentStart;
+      let currentDestination = this.$store.getters.currentDestination;
+      let currentStartNode: any;
+      let currentDestinationNode: any;
+
+      if (currentStart[0]) {
+        currentStartNode = document.getElementById(
+          `x${currentStart[0]}` + `y${currentStart[1]}`
+        );
+        currentStartNode.textContent = "";
+      }
+      if (currentDestination[0]) {
+        currentDestinationNode = document.getElementById(
+          `x${currentDestination[0]}` + `y${currentDestination[1]}`
+        );
+        currentDestinationNode.textContent = "";
+      }
+      this.newStart([undefined, undefined]);
+      this.newDestination([undefined, undefined]);
+    },
+  },
 };
 </script>
 
@@ -32,5 +70,9 @@ export default {
 .header > button,
 .header > p {
   display: inline-block;
+}
+
+.header > p {
+  color: white;
 }
 </style>

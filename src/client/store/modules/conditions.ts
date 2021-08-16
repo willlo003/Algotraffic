@@ -1,6 +1,6 @@
 const state = {
-  startpoint: undefined,
-  destination: undefined,
+  startpoint: [undefined, undefined],
+  destination: [undefined, undefined],
   currentSet: "startpoint",
 };
 
@@ -11,10 +11,10 @@ const getters = {
 };
 
 const actions = {
-  newStart({ commit }: any, arg: number) {
+  newStart({ commit }: any, arg: Array<string>) {
     commit("setStart", arg);
   },
-  newDestination({ commit }: any, arg: number) {
+  newDestination({ commit }: any, arg: Array<string>) {
     commit("setDestination", arg);
   },
   newSet({ commit }: any, arg: string) {
