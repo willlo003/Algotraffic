@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <select name="methods" id="methods">
+    <select name="methods" id="methods" @change="algoMethod($event)">
       <option value="DFS">DFS</option>
       <option value="BFS">BFS</option>
       <option value="A*">A*</option>
@@ -25,6 +25,9 @@
 <script lang="ts">
 import { mapGetters, mapActions } from "vuex";
 import BFS from "../Algorithm/BFS";
+import DFS from "../Algorithm/DFS";
+
+let currentAlgoMethod = "DFS";
 
 export default {
   name: "TheHeader",
@@ -33,11 +36,18 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["newStart", "newDestination", "newClear"]),
+    ...mapActions(["newStart", "newDestination", "newClear", "newSet"]),
     startRunning() {
       //Current Start Node Coordinate
       let startNodeCoordinate = this.$store.getters.currentStart;
-      BFS(startNodeCoordinate);
+      if (currentAlgoMethod === "DFS") {
+        DFS(startNodeCoordinate);
+      } else if (currentAlgoMethod === "BFS") {
+        BFS(startNodeCoordinate);
+      }
+    },
+    algoMethod(e: any) {
+      currentAlgoMethod = e.target.value;
     },
     clear() {
       // clear the current start point and destination
@@ -46,13 +56,13 @@ export default {
       let currentStartNode: any;
       let currentDestinationNode: any;
 
-      if (currentStart[0]) {
+      if (currentStart[0] >= 0) {
         currentStartNode = document.getElementById(
           `x${currentStart[0]}` + `y${currentStart[1]}`
         );
         currentStartNode.textContent = "";
       }
-      if (currentDestination[0]) {
+      if (currentDestination[0] >= 0) {
         currentDestinationNode = document.getElementById(
           `x${currentDestination[0]}` + `y${currentDestination[1]}`
         );
@@ -62,7 +72,7 @@ export default {
       //set new end start point
       this.newStart([undefined, undefined]);
       this.newDestination([undefined, undefined]);
-
+      this.newSet("startpoint");
       //clear color
       let newClear = !this.$store.getters.currentClear;
       this.newClear(newClear);

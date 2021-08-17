@@ -73,7 +73,7 @@ export default {
 
       if (currentSet === "startpoint") {
         onClickNode[0].textContent = "S";
-        if (currentStart[0]) {
+        if (currentStart[0] >= 0) {
           currentStartNode =
             this.$refs[`x${currentStart[0]}` + `y${currentStart[1]}`];
           currentStartNode[0].textContent = "";
@@ -82,7 +82,7 @@ export default {
         this.newSet("destination");
       } else {
         onClickNode[0].textContent = "D";
-        if (currentDestination[0]) {
+        if (currentDestination[0] >= 0) {
           currentDestinationNode =
             this.$refs[
               `x${currentDestination[0]}` + `y${currentDestination[1]}`
@@ -117,6 +117,7 @@ button {
   height: 100%;
   background: white;
   font-weight: bold;
+  font-size: 20px;
 }
 
 button:hover {
