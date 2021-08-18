@@ -6,10 +6,10 @@ const DFS = function (start) {
   let result: Array<string> = [];
   let visited: Array<Array<number>> = [start];
   let visitedId: Array<string> = [`x${start[0]}` + `y${start[1]}`];
-  document.getElementById(visitedId[0]).style.backgroundColor = "grey";
   // declare the path
   let path = new PathNode(start[0], start[1], undefined);
-  let head = path;
+  let searchHead = path;
+  let pathHead = path;
 
   //recursion
   async function helper(path, x, y) {
@@ -22,11 +22,10 @@ const DFS = function (start) {
     }
     //check whether destination
     if (document.getElementById(currentId).textContent === "D") {
-      document.getElementById(currentId).style.background = "grey";
       path.next = new PathNode(x, y, undefined);
       path = path.next;
       result.push(`x${x}` + `y${y}`);
-      genPath(head);
+      genSearchPath(searchHead, pathHead);
       return;
     }
     // also stop other recursions
@@ -37,13 +36,22 @@ const DFS = function (start) {
     } else {
       visited.push([x, y]);
       visitedId.push(currentId);
-      document.getElementById(currentId).style.background = "grey";
       path.next = new PathNode(x, y, undefined);
       path = path.next;
-      helper(path, x, y - 1);
-      helper(path, x + 1, y);
-      helper(path, x, y + 1);
-      helper(path, x - 1, y);
+      let j = 0;
+      while (j < 4) {
+        // await sleep(100);
+        if (j === 0) {
+          helper(path, x, y - 1);
+        } else if (j === 1) {
+          helper(path, x + 1, y);
+        } else if (j === 2) {
+          helper(path, x, y + 1);
+        } else if (j === 3) {
+          helper(path, x - 1, y);
+        }
+        j += 1;
+      }
     }
   }
   helper(path, start[0], start[1] - 1);
@@ -58,8 +66,20 @@ function PathNode(x, y, next) {
   this.next = next === undefined ? null : next;
 }
 
-// Gen the Path
-async function genPath(head) {
+// Gen the SearchPath
+async function genSearchPath(head, RoadHead) {
+  while (head) {
+    await sleep(10);
+    //change path color
+    document.getElementById(`x${head.x}` + `y${head.y}`).style.backgroundColor =
+      "grey";
+    head = head.next;
+  }
+  genRoadPath(RoadHead);
+}
+
+// Gen the SearchPath
+async function genRoadPath(head) {
   while (head) {
     await sleep(10);
     //change path color

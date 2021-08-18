@@ -1,24 +1,32 @@
 <template>
-  <div class="header">
-    <select name="methods" id="methods" @change="algoMethod($event)">
-      <option value="DFS">DFS</option>
-      <option value="BFS">BFS</option>
-      <option value="A*">A*</option>
-      <option value="Greedy">Greedy</option>
-      <option value="Dijkstra's">Dijkstra's</option>
-    </select>
-    <button class="start" id="start" @click="startRunning">start</button>
-    <button class="clear" id="clear" @click="clear">clear</button>
-    <p class="start-point" id="start-point">
-      Start Point:
-      {{ currentStart[0] === undefined ? "Please Set" : currentStart }}
-    </p>
-    <p class="destination" id="destination">
-      Destination:
-      {{
-        currentDestination[0] === undefined ? "Please Set" : currentDestination
-      }}
-    </p>
+  <div class="content">
+    <h1>AlgoTraffic</h1>
+    <div class="header">
+      <div class="select">
+        <select name="methods" id="methods" @change="algoMethod($event)">
+          <option value="" disabled>Approach</option>
+          <option value="DFS" id="option">Depth-first Search</option>
+          <option value="BFS" id="option">Breadth-first Search</option>
+          <option value="A*" id="option">A* Search</option>
+          <option value="Greedy" id="option">Greedy Best-first Search</option>
+          <option value="Dijkstra's" id="option">Dijkstra's Algorithm</option>
+        </select>
+      </div>
+      <button class="start" id="start" @click="startRunning">start</button>
+      <button class="clear" id="clear" @click="clear">clear</button>
+      <p class="start-point" id="start-point">
+        Start Point:
+        {{ currentStart[0] === undefined ? "Please Set" : currentStart }}
+      </p>
+      <p class="destination" id="destination">
+        Destination:
+        {{
+          currentDestination[0] === undefined
+            ? "Please Set"
+            : currentDestination
+        }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -28,6 +36,7 @@ import BFS from "../Algorithm/BFS";
 import DFS from "../Algorithm/DFS";
 import Greedy from "../Algorithm/Greedy";
 import A from "../Algorithm/A*";
+import Dijkstra from "../Algorithm/Dijkstra";
 
 let currentAlgoMethod = "DFS";
 
@@ -52,6 +61,8 @@ export default {
         Greedy(startNodeCoordinate, destinationNodeCoordinate);
       } else if (currentAlgoMethod === "A*") {
         A(startNodeCoordinate, destinationNodeCoordinate);
+      } else if (currentAlgoMethod === "Dijkstra's") {
+        Dijkstra(startNodeCoordinate);
       }
     },
     algoMethod(e: any) {
@@ -90,6 +101,18 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  text-align: center;
+  color: white;
+}
+.header {
+  text-align: center;
+  width: 1200px;
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  align-items: center;
+}
+
 .header > select,
 .header > button,
 .header > p {
@@ -98,5 +121,70 @@ export default {
 
 .header > p {
   color: white;
+  position: relative;
+}
+
+select {
+  padding-right: 15px;
+  border: none;
+  color: rgb(255, 255, 255);
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+select:hover {
+  color: rgba(99, 88, 72, 0.603);
+}
+
+.select {
+  position: relative;
+  border: none;
+  border-radius: 20px;
+  color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: auto;
+  padding: 10px;
+}
+
+.select::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 15px;
+  width: 0;
+  height: 0;
+  margin: auto 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid white;
+}
+
+.select:hover::after {
+  border-top-color: black;
+}
+
+button {
+  position: relative;
+  border: none;
+  border-radius: 20px;
+  color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 30px;
+  padding: 10px;
+  /* font-weight: bold; */
+  font-size: 18px;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.562);
+}
+
+button:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 </style>

@@ -16,10 +16,10 @@ const A = function (start, destination) {
 
   // declare the path
   let path = new PathNode(-1, -1, undefined);
-  let head = path;
+  let searchHead = path;
+  let pathHead = path;
 
   function helper(x, y) {
-    console.log(remainX, remainY);
     remainX = Math.abs(destination[0] - x);
     remainY = Math.abs(destination[1] - y);
 
@@ -27,13 +27,13 @@ const A = function (start, destination) {
     visitedId.push(`x${x}` + `y${y}`);
     path.next = new PathNode(x, y, undefined);
     path = path.next;
-    document.getElementById(`x${x}` + `y${y}`).style.backgroundColor = "grey";
 
     if (x === destination[0] && y === destination[1]) {
       result.push(`x${x}` + `y${y}`);
-      genPath(head.next);
+      genSearchPath(searchHead.next, pathHead.next);
       return;
     }
+
     if (remainX !== 0) {
       newX = x + xMove;
     } else if (remainY !== 0) {
@@ -51,8 +51,20 @@ function PathNode(x, y, next) {
   this.next = next === undefined ? null : next;
 }
 
-// Gen the Path
-async function genPath(head) {
+// Gen the SearchPath
+async function genSearchPath(head, RoadHead) {
+  while (head) {
+    await sleep(10);
+    //change path color
+    document.getElementById(`x${head.x}` + `y${head.y}`).style.backgroundColor =
+      "grey";
+    head = head.next;
+  }
+  genRoadPath(RoadHead);
+}
+
+// Gen the SearchPath
+async function genRoadPath(head) {
   while (head) {
     await sleep(10);
     //change path color
@@ -61,5 +73,4 @@ async function genPath(head) {
     head = head.next;
   }
 }
-
 export default A;

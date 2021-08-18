@@ -12,23 +12,22 @@ const Greedy = function (start, destination) {
 
   // declare the path
   let path = new PathNode(-1, -1, undefined);
-  let head = path;
+  let searchHead = path;
+  let pathHead = path;
 
   let newX = start[0];
   let newY = start[1];
 
-  console.log(xMove, yMove);
   // recursion
   function helper(x: number, y: number) {
     visited.push([x, y]);
     visitedId.push(`x${x}` + `y${y}`);
     path.next = new PathNode(x, y, undefined);
     path = path.next;
-    document.getElementById(`x${x}` + `y${y}`).style.backgroundColor = "grey";
 
     if (x === destination[0] && y === destination[1]) {
       result.push(`x${x}` + `y${y}`);
-      genPath(head.next);
+      genSearchPath(searchHead.next, pathHead.next);
       return;
     }
     if (x !== destination[0]) {
@@ -49,8 +48,20 @@ function PathNode(x, y, next) {
   this.next = next === undefined ? null : next;
 }
 
-// Gen the Path
-async function genPath(head) {
+// Gen the SearchPath
+async function genSearchPath(head, RoadHead) {
+  while (head) {
+    await sleep(10);
+    //change path color
+    document.getElementById(`x${head.x}` + `y${head.y}`).style.backgroundColor =
+      "grey";
+    head = head.next;
+  }
+  genRoadPath(RoadHead);
+}
+
+// Gen the SearchPath
+async function genRoadPath(head) {
   while (head) {
     await sleep(10);
     //change path color

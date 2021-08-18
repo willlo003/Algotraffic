@@ -1,8 +1,7 @@
 body {
-  background: #ffffff;
+  background-image: linear-gradient(to right, #DECBA4, #3E5151);
+  background-size: cover;
   font-family: "Open Sans", sans-serif;
-}
-
-.header {
-  background: #127557;
+  display: flex;
+  justify-content: center;
 }

@@ -98,32 +98,19 @@ export default {
 </script>
 
 <style scoped>
-.vue-grid-layout {
-  position: relative;
-  width: 1200px;
-}
-
-.vue-grid-item {
-  border: 1.2px solid #469096;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 button {
   display: inline-block; /* this shouldn't be needed on a button though */
   width: 100%;
   height: 100%;
-  background: white;
   font-weight: bold;
   font-size: 20px;
+  border-radius: 5px;
+  opacity: 0.7;
 }
 
 button:hover {
-  background: rgb(174, 175, 175);
-  transition-delay: 0s;
-  transition-duration: 0.5s;
+  /* transition-delay: 0s;
+  transition-duration: 0.5s; */
   opacity: 1;
 }
 
