@@ -2,9 +2,13 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const Greedy = function (start, destination) {
+const A = function (start, destination) {
+  let remainX;
+  let remainY;
   let xMove = start[0] < destination[0] ? 1 : -1;
   let yMove = start[1] < destination[1] ? 1 : -1;
+  let newX = start[0];
+  let newY = start[1];
 
   let result: Array<string> = [];
   let visited: Array<Array<number>> = [];
@@ -14,12 +18,11 @@ const Greedy = function (start, destination) {
   let path = new PathNode(-1, -1, undefined);
   let head = path;
 
-  let newX = start[0];
-  let newY = start[1];
+  function helper(x, y) {
+    console.log(remainX, remainY);
+    remainX = Math.abs(destination[0] - x);
+    remainY = Math.abs(destination[1] - y);
 
-  console.log(xMove, yMove);
-  // recursion
-  function helper(x: number, y: number) {
     visited.push([x, y]);
     visitedId.push(`x${x}` + `y${y}`);
     path.next = new PathNode(x, y, undefined);
@@ -31,12 +34,11 @@ const Greedy = function (start, destination) {
       genPath(head.next);
       return;
     }
-    if (x !== destination[0]) {
+    if (remainX !== 0) {
       newX = x + xMove;
-    } else if (y !== destination[1]) {
+    } else if (remainY !== 0) {
       newY = y + yMove;
     }
-
     helper(newX, newY);
   }
   helper(start[0], start[1]);
@@ -60,4 +62,4 @@ async function genPath(head) {
   }
 }
 
-export default Greedy;
+export default A;
