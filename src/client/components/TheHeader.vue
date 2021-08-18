@@ -26,6 +26,7 @@
 import { mapGetters, mapActions } from "vuex";
 import BFS from "../Algorithm/BFS";
 import DFS from "../Algorithm/DFS";
+import Greedy from "../Algorithm/Greedy";
 
 let currentAlgoMethod = "DFS";
 
@@ -40,10 +41,14 @@ export default {
     startRunning() {
       //Current Start Node Coordinate
       let startNodeCoordinate = this.$store.getters.currentStart;
+      let destinationNodeCoordinate = this.$store.getters.currentDestination;
+
       if (currentAlgoMethod === "DFS") {
         DFS(startNodeCoordinate);
       } else if (currentAlgoMethod === "BFS") {
         BFS(startNodeCoordinate);
+      } else if (currentAlgoMethod === "Greedy") {
+        Greedy(startNodeCoordinate, destinationNodeCoordinate);
       }
     },
     algoMethod(e: any) {
