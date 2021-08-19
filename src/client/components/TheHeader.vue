@@ -47,7 +47,13 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["newStart", "newDestination", "newClear", "newSet"]),
+    ...mapActions([
+      "newStart",
+      "newDestination",
+      "newClear",
+      "newSet",
+      "newBlock",
+    ]),
     startRunning() {
       //Current Start Node Coordinate
       let startNodeCoordinate = this.$store.getters.currentStart;
@@ -74,6 +80,14 @@ export default {
       let currentDestination = this.$store.getters.currentDestination;
       let currentStartNode: any;
       let currentDestinationNode: any;
+
+      const elements = document.getElementsByClassName("facility");
+      while (elements.length > 0) {
+        let currentFacilityParentNode: any = elements[0].parentNode;
+        currentFacilityParentNode.removeChild(elements[0]);
+      }
+      // clean blocked Nodes
+      this.newBlock([]);
 
       if (currentStart[0] >= 0) {
         currentStartNode = document.getElementById(
