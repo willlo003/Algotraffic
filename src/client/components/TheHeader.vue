@@ -58,28 +58,41 @@ export default {
       //Current Start Node Coordinate
       let startNodeCoordinate = this.$store.getters.currentStart;
       let destinationNodeCoordinate = this.$store.getters.currentDestination;
-
+      let currentBlockedNodeId = this.$store.getters.currentBlock;
       if (currentAlgoMethod === "DFS") {
-        DFS(startNodeCoordinate);
+        DFS(
+          startNodeCoordinate,
+          destinationNodeCoordinate,
+          currentBlockedNodeId
+        );
       } else if (currentAlgoMethod === "BFS") {
-        BFS(startNodeCoordinate);
+        BFS(
+          startNodeCoordinate,
+          destinationNodeCoordinate,
+          currentBlockedNodeId
+        );
       } else if (currentAlgoMethod === "Greedy") {
-        Greedy(startNodeCoordinate, destinationNodeCoordinate);
+        Greedy(
+          startNodeCoordinate,
+          destinationNodeCoordinate,
+          currentBlockedNodeId
+        );
       } else if (currentAlgoMethod === "A*") {
-        A(startNodeCoordinate, destinationNodeCoordinate);
+        A(startNodeCoordinate, destinationNodeCoordinate, currentBlockedNodeId);
       } else if (currentAlgoMethod === "Dijkstra's") {
-        Dijkstra(startNodeCoordinate);
+        Dijkstra(
+          startNodeCoordinate,
+          destinationNodeCoordinate,
+          currentBlockedNodeId
+        );
       }
     },
     algoMethod(e: any) {
       currentAlgoMethod = e.target.value;
     },
+
     clear() {
-      // clear the current start point and destination
-      let currentStart = this.$store.getters.currentStart;
-      let currentDestination = this.$store.getters.currentDestination;
-      let currentStartNode: any;
-      let currentDestinationNode: any;
+      // clear all facilities
 
       const elements = document.getElementsByClassName("facility");
       while (elements.length > 0) {
@@ -88,6 +101,12 @@ export default {
       }
       // clean blocked Nodes
       this.newBlock([]);
+
+      // clear the current start point and destination
+      let currentStart = this.$store.getters.currentStart;
+      let currentDestination = this.$store.getters.currentDestination;
+      let currentStartNode: any;
+      let currentDestinationNode: any;
 
       if (currentStart[0] >= 0) {
         currentStartNode = document.getElementById(

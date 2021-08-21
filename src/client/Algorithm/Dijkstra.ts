@@ -2,7 +2,11 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const Dijkstra = async function (start) {
+const Dijkstra = async function (start, destination, currentBlockedNodeId) {
+  if (start[0] === undefined || destination[0] === undefined) {
+    alert("Please set start point and destination");
+    return;
+  }
   let result = [];
   let visited = [start];
   let visitedId = [`x${start[0]}` + `y${start[1]}`];

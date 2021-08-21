@@ -2,7 +2,11 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const BFS = async function (start) {
+const BFS = async function (start, destination, currentBlockedNodeId) {
+  if (start[0] === undefined || destination[0] === undefined) {
+    alert("Please set start point and destination");
+    return;
+  }
   let result = [];
   let visited = [start];
   let visitedId = [`x${start[0]}` + `y${start[1]}`];
@@ -19,7 +23,7 @@ const BFS = async function (start) {
       up = [visited[i][0], visited[i][1] - 1];
       upId = `x${up[0]}` + `y${up[1]}`;
 
-      if (!visitedId.includes(upId)) {
+      if (!visitedId.includes(upId) && !currentBlockedNodeId.includes(upId)) {
         visited.push(up);
         visitedId.push(upId);
         document.getElementById(upId).style.backgroundColor = "grey";
@@ -35,7 +39,10 @@ const BFS = async function (start) {
       right = [visited[i][0] + 1, visited[i][1]];
       rightId = `x${right[0]}` + `y${right[1]}`;
 
-      if (!visitedId.includes(rightId)) {
+      if (
+        !visitedId.includes(rightId) &&
+        !currentBlockedNodeId.includes(rightId)
+      ) {
         visited.push(right);
         visitedId.push(rightId);
         document.getElementById(rightId).style.backgroundColor = "grey";
@@ -51,7 +58,10 @@ const BFS = async function (start) {
       down = [visited[i][0], visited[i][1] + 1];
       downId = `x${down[0]}` + `y${down[1]}`;
 
-      if (!visitedId.includes(downId)) {
+      if (
+        !visitedId.includes(downId) &&
+        !currentBlockedNodeId.includes(downId)
+      ) {
         visited.push(down);
         visitedId.push(downId);
         document.getElementById(downId).style.backgroundColor = "grey";
@@ -67,7 +77,10 @@ const BFS = async function (start) {
       left = [visited[i][0] - 1, visited[i][1]];
       leftId = `x${left[0]}` + `y${left[1]}`;
 
-      if (!visitedId.includes(leftId)) {
+      if (
+        !visitedId.includes(leftId) &&
+        !currentBlockedNodeId.includes(leftId)
+      ) {
         visited.push(left);
         visitedId.push(leftId);
         document.getElementById(leftId).style.backgroundColor = "grey";

@@ -2,7 +2,11 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const DFS = function (start) {
+const DFS = function (start, destination, currentBlockedNodeId) {
+  if (start[0] === undefined || destination[0] === undefined) {
+    alert("Please set start point and destination");
+    return;
+  }
   let result: Array<string> = [];
   let visited: Array<Array<number>> = [start];
   let visitedId: Array<string> = [`x${start[0]}` + `y${start[1]}`];
@@ -29,9 +33,11 @@ const DFS = function (start) {
       return;
     }
     // also stop other recursions
-
     //checker wether visited
-    if (visitedId.includes(currentId)) {
+    if (
+      visitedId.includes(currentId) ||
+      currentBlockedNodeId.includes(currentId)
+    ) {
       return;
     } else {
       visited.push([x, y]);

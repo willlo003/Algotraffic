@@ -2,7 +2,11 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-const Greedy = function (start, destination) {
+const Greedy = function (start, destination, currentBlockedNodeId) {
+  if (start[0] === undefined || [0] === undefined) {
+    alert("Please set start point and destination");
+    return;
+  }
   let xMove = start[0] < destination[0] ? 1 : -1;
   let yMove = start[1] < destination[1] ? 1 : -1;
 
