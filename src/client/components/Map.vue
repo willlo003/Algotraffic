@@ -27,7 +27,7 @@
           @click="click(item.x, item.y)"
           :ref="`x${item.x}` + `y${item.y}`"
           :id="`x${item.x}` + `y${item.y}`"
-          :style="{ background: currentClear ? 'white' : '#ffffff' }"
+          :style="{ background: currentClean ? 'white' : '#ffffff' }"
           @drop="onDrop($event)"
           @dragover.prevent
           @dragleave.prevent
@@ -48,7 +48,7 @@ let testLayout: Array<Object> = Grid;
 
 export default {
   name: "Map",
-  computed: mapGetters(["currentClear", "currentDrag"]),
+  computed: mapGetters(["currentClean", "currentDrag"]),
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
@@ -187,7 +187,7 @@ export default {
     },
 
     // function of cleaning colors
-    clearColor() {
+    cleanColor() {
       this.activeColor = !this.activeColor;
     },
     // function of clicking the node

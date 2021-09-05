@@ -1,5 +1,8 @@
 <template>
-  <div class="city">
+  <div
+    class="city"
+    v-if="currentAlgoMethod === `DFS` || currentAlgoMethod === `A*`"
+  >
     <div class="mountain" draggable="true" @dragstart="startDrag($event)"></div>
     <div class="house" draggable="true" @dragstart="startDrag($event)"></div>
     <div
@@ -11,10 +14,11 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "City",
+  computed: mapGetters(["currentAlgoMethod"]),
   data() {
     return {};
   },

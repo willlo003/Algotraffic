@@ -13,7 +13,7 @@
         </select>
       </div>
       <button class="start" id="start" @click="startRunning">start</button>
-      <button class="clear" id="clear" @click="clear">clear</button>
+      <button class="clean" id="clean" @click="clean">clean</button>
       <p class="start-point" id="start-point">
         Start Point:
         {{ currentStart[0] === undefined ? "Please Set" : currentStart }}
@@ -38,8 +38,6 @@ import Greedy from "../Algorithm/Greedy";
 import A from "../Algorithm/A*";
 import Dijkstra from "../Algorithm/Dijkstra";
 
-let currentAlgoMethod = "DFS";
-
 export default {
   name: "TheHeader",
   computed: mapGetters(["currentStart", "currentDestination"]),
@@ -50,36 +48,37 @@ export default {
     ...mapActions([
       "newStart",
       "newDestination",
-      "newClear",
+      "newClean",
       "newSet",
       "newBlock",
+      "newAlgoMethod",
     ]),
     startRunning() {
       //Current Start Node Coordinate
       let startNodeCoordinate = this.$store.getters.currentStart;
       let destinationNodeCoordinate = this.$store.getters.currentDestination;
       let currentBlockedNodeId = this.$store.getters.currentBlock;
-      if (currentAlgoMethod === "DFS") {
+      if (this.$store.getters.currentAlgoMethod === "DFS") {
         DFS(
           startNodeCoordinate,
           destinationNodeCoordinate,
           currentBlockedNodeId
         );
-      } else if (currentAlgoMethod === "BFS") {
+      } else if (this.$store.getters.currentAlgoMethod === "BFS") {
         BFS(
           startNodeCoordinate,
           destinationNodeCoordinate,
           currentBlockedNodeId
         );
-      } else if (currentAlgoMethod === "Greedy") {
+      } else if (this.$store.getters.currentAlgoMethod === "Greedy") {
         Greedy(
           startNodeCoordinate,
           destinationNodeCoordinate,
           currentBlockedNodeId
         );
-      } else if (currentAlgoMethod === "A*") {
+      } else if (this.$store.getters.currentAlgoMethod === "A*") {
         A(startNodeCoordinate, destinationNodeCoordinate, currentBlockedNodeId);
-      } else if (currentAlgoMethod === "Dijkstra's") {
+      } else if (this.$store.getters.currentAlgoMethod === "Dijkstra's") {
         Dijkstra(
           startNodeCoordinate,
           destinationNodeCoordinate,
@@ -87,12 +86,13 @@ export default {
         );
       }
     },
+
     algoMethod(e: any) {
-      currentAlgoMethod = e.target.value;
+      this.newAlgoMethod(e.target.value);
     },
 
-    clear() {
-      // clear all facilities
+    clean() {
+      // clean all facilities
 
       const elements = document.getElementsByClassName("facility");
       while (elements.length > 0) {
@@ -102,7 +102,7 @@ export default {
       // clean blocked Nodes
       this.newBlock([]);
 
-      // clear the current start point and destination
+      // clean the current start point and destination
       let currentStart = this.$store.getters.currentStart;
       let currentDestination = this.$store.getters.currentDestination;
       let currentStartNode: any;
@@ -125,9 +125,9 @@ export default {
       this.newStart([undefined, undefined]);
       this.newDestination([undefined, undefined]);
       this.newSet("startpoint");
-      //clear color
-      let newClear = !this.$store.getters.currentClear;
-      this.newClear(newClear);
+      //clean color
+      let newClean = !this.$store.getters.currentClean;
+      this.newClean(newClean);
     },
   },
 };

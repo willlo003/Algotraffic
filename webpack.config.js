@@ -12,10 +12,10 @@ module.exports = {
   },
   devServer: {
     compress: true,
-    port: 8080,
+    port: 8081,
     publicPath: "/public/",
     proxy: {
-      "/": "http://localhost:3000/",
+      "/": "http://localhost:3001/",
     },
   },
   module: {
