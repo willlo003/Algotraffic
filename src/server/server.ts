@@ -12,6 +12,8 @@ app.use(express.json());
 //     })
 // )
 
+const PORT = process.env.PORT || "3001";
+
 if (process.env.NODE_ENV === "production") {
   app.use("/public", express.static(path.join(__dirname, "../../public")));
 
@@ -22,6 +24,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(3001, () => {
+app.listen(PORT, () => {
+  console.log(process.env.NODE_ENV);
   console.log("Server is running");
 });

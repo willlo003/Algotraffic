@@ -1,0 +1,16 @@
+version: "3"
+services:
+  dev:
+    image: algotraffic/mm-dev
+    container_name: mm-dev
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules
+    command: npm run dev
+
+
+volumes:
+  node_modules:
+
